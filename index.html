@@ -171,9 +171,15 @@
 
     console.log('解剖手順: ', steps);
 
+    // 解剖手順がない場合の処理を追加
+    if (steps.length === 0) {
+        steps.push("交換する必要はありません。");
+    }
+
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
+
 
 
 
