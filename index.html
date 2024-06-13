@@ -169,21 +169,11 @@
         }
     }
 
-    // 再度currentSetとcorrectSetを比較し、正しくなっているか確認
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 2; j++) {
-            if (!correctSet[i].includes(currentSet[i][j])) {
-                steps.push(`警告: ${['左', '中', '右'][i]}の${currentSet[i][j]}が正解の形に含まれていません`);
-            }
-        }
-    }
-
     console.log('解剖手順: ', steps);
 
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
-
 
 
 
