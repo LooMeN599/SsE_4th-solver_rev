@@ -150,7 +150,6 @@
     let currentSet = frontSet.map(s => symbols[s].slice());
     console.log('現在のセット: ', currentSet);
     let steps = [];
-    let usedPairs = new Set(); // 追加：交換済みのペアを追跡
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 2; j++) {
@@ -158,14 +157,11 @@
                 for (let k = 0; k < 3; k++) {
                     if (i !== k && correctSet[k].includes(currentSet[i][j])) {
                         let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
-                        let pairKey = `${i}-${j}-${k}-${swapIndex}`; // 交換ペアのキーを生成
-
-                        if (swapIndex !== -1 && !usedPairs.has(pairKey)) { // 交換ペアが未使用かどうか確認
+                        if (swapIndex !== -1) {
                             console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
-                            usedPairs.add(pairKey); // 交換ペアを記録
-                            break;
+                            break; // 交換を実行したら内側のループを抜ける
                         }
                     }
                 }
@@ -178,6 +174,16 @@
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
+
+
+    console.log('解剖手順: ', steps);
+
+    document.getElementById('dissection-steps').innerText = steps.join('、');
+    document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
+}
+
+
+
 
 
 
