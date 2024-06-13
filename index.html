@@ -161,12 +161,22 @@
     });
     console.log('現在のセット (表セット): ', currentSet);
 
-    let found = false;
-    let steps = [];
-    let loopCount = 0; // ループ回数をカウント
+    function isEqualCorrectSet(currentSet, correctSet) {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 2; j++) {
+            if (currentSet[i][j] !== correctSet[i][j]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
-    while (!found && loopCount < 1000) { // ループ回数の制限を設定して無限ループを防ぐ
-        found = true;
+// 正解の形と現在のセットが一致しない場合のみ解剖手順を実行する
+if (!isEqualCorrectSet(currentSet, correctSet)) {
+    let found = true; // 解剖手順が見つかればfalseに設定
+    while (found) {
+        found = false; // 一旦falseに設定し、解剖手順が見つかればtrueに更新する
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 2; j++) {
@@ -178,23 +188,26 @@
                                 console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                                 steps.push(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                                 [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
-                                found = false;
-                                break;
+                                found = true; // 解剖手順が見つかったので再度ループする
+                                break; // 交換を実行したら内側のループを抜ける
                             }
                         }
                     }
                 }
             }
+            if (found) {
+                break; // 解剖手順が見つかったので外側のループを抜ける
+            }
         }
-        loopCount++;
     }
+}
 
-    console.log('解剖手順: ', steps);
+console.log('解剖手順: ', steps);
 
-    // 解剖手順がない場合の処理を追加
-    if (steps.length === 0) {
-        steps.push("交換する必要はありません。");
-    }
+// 解剖手順がない場合の処理を追加
+if (steps.length === 0) {
+    steps.push("交換する必要はありません。");
+}
 
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
