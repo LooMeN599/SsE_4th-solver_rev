@@ -3,48 +3,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SsE 4th encounter solver</title>
     <style>
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* 左寄せに変更 */
-            margin-top: 20px;
-        }
-        .button-group {
-            margin-bottom: 20px;
-        }
-        .button-group div {
-            margin-bottom: 10px;
-        }
-        .button-group button {
-            margin: 5px;
-            padding: 10px;
-        }
-        .highlight {
-            background-color: yellow;
-        }
-        .result {
-            display: flex;
-            flex-direction: column; /* 縦方向に変更 */
-            justify-content: flex-start; /* 左寄せに変更 */
-            align-items: flex-start; /* 左寄せに変更 */
-            margin-top: 20px;
-        }
-        .result .row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(3, auto);
-            gap: 10px;
-        }
-        .header {
-            font-size: 24px; /* フォントサイズを少し小さく */
-        }
-        .flex-row {
-            display: flex;
-            align-items: center;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 左寄せに変更 */
+    margin-top: 20px;
+    margin-left: 20px; /* 左端位置をそろえる */
+}
+.button-group {
+    margin-bottom: 10px; /* 上下余白を縮める */
+}
+.button-group div {
+    margin-bottom: 5px; /* 上下余白を縮める */
+}
+.button-group .flex-row {
+    margin-bottom: 10px; /* ボタングリッド間の余白を縮める */
+    width: 100%; /* 横幅をそろえる */
+    display: flex;
+    align-items: center;
+}
+.button-group .label {
+    width: 50px; /* ラベルの固定幅を設定 */
+}
+.button-group .button-grid {
+    margin-left: 4.8px; /* ボタングリッドの位置を右にずらす */
+}
+.button-group button {
+    margin: 3px; /* 上下余白を縮める */
+    padding: 10px;
+}
+.highlight {
+    background-color: rgb(0, 217, 255);
+}
+.result {
+    display: flex;
+    flex-direction: column; /* 縦方向に変更 */
+    justify-content: flex-start; /* 左寄せに変更 */
+    align-items: flex-start; /* 左寄せに変更 */
+    margin-top: 0px;
+    line-height: 0.5; /* 行間を詰める */
+}
+.result .row {
+    margin-bottom: 5px; /* 縦幅を狭める */
+}
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 5px;
+}
+.header {
+    font-size: 24px; /* フォントサイズを少し小さく */
+}
+.flex-row {
+    display: flex;
+    align-items: center;
+    width: 100%; /* 横幅をそろえる */
+}
+.clear-button {
+            margin-top: 20px; /* 上に余白を追加 */
+            padding: 10px 20px; /* ボタンを大きくする */
+            font-size: 16px;
         }
     </style>
 </head>
@@ -119,8 +137,9 @@
         </div>
     </div>
 
-    <button onclick="clearSelections()">入力クリア</button>
+    <button class="clear-button" onclick="clearSelections()">入力クリア</button>
 </div>
+
 
 <script>
     let backSet = ['', '', ''];
@@ -217,11 +236,11 @@
             const correctShapeNames = correctShapeSymbols.match(/\((.*?)\)/g).map(sym => symbolToName[sym]);
             console.log('取得されたアクション:', action);
             document.getElementById('dissection-steps').innerText = `解剖手順: ${action}`;
-            document.getElementById('dissected-front-set').innerText = `解剖後の表セット: ${correctShapeNames.join(' | ')}`;
+            document.getElementById('dissected-front-set').innerText = `表の正解: ${correctShapeNames.join(' | ')}`;
         } else {
             console.error('キーが見つかりません:', frontSetKey);
             document.getElementById('dissection-steps').innerText = '解剖手順: アクションが見つかりません';
-            document.getElementById('dissected-front-set').innerText = '解剖後の表セット:';
+            document.getElementById('dissected-front-set').innerText = '表の正解:';
         }
     }
 
@@ -230,7 +249,7 @@
         frontSet = ['', '', ''];
         document.querySelectorAll('.highlight').forEach(btn => btn.classList.remove('highlight'));
         document.getElementById('dissection-steps').innerText = '解剖手順:';
-        document.getElementById('dissected-front-set').innerText = '解剖後の表セット:';
+        document.getElementById('dissected-front-set').innerText = '表の正解:';
         console.log('選択がクリアされました');
     }
 </script>
