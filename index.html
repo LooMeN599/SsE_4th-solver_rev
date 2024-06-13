@@ -158,6 +158,7 @@
                     if (i !== k && correctSet[k].includes(currentSet[i][j])) {
                         let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
                         if (swapIndex !== -1) {
+                            console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
                             break;
@@ -168,11 +169,21 @@
         }
     }
 
+    // 再度currentSetとcorrectSetを比較し、正しくなっているか確認
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 2; j++) {
+            if (!correctSet[i].includes(currentSet[i][j])) {
+                steps.push(`警告: ${['左', '中', '右'][i]}の${currentSet[i][j]}が正解の形に含まれていません`);
+            }
+        }
+    }
+
     console.log('解剖手順: ', steps);
 
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
+
 
 
 
