@@ -148,7 +148,7 @@
     console.log('正解の形: ', correctSet);
 
     // 表セットを記号に変換
-    let currentSet = frontSet.map(s => symbols[s]);
+    let currentSet = frontSet.map(s => symbols[s].slice());
     console.log('現在のセット (表セット): ', currentSet);
     let steps = [];
 
@@ -180,6 +180,7 @@
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
+
 
 </script>
 
