@@ -101,7 +101,7 @@
 <script>
     let backSet = ['', '', ''];
     let frontSet = ['', '', ''];
-    const symbols = { '球体': '●', '立方体': '■', '三角錐': '▲', '円柱': '■●', '円錐': '▲●', '三角柱': '▲■' };
+    const symbols = { '球体': ['●', '●'], '立方体': ['■', '■'], '三角錐': ['▲', '▲'], '円柱': ['■', '●'], '円錐': ['▲', '●'], '三角柱': ['▲', '■'] };
 
     function selectBackSet(button, symbol, position) {
         backSet[position] = symbol;
@@ -126,14 +126,20 @@
         button.classList.add('highlight');
     }
 
+    function getCorrectSymbol(backSymbol, index) {
+        const allSymbols = ['▲', '■', '●'];
+        const remainingSymbols = allSymbols.filter(sym => sym !== backSymbol);
+        return remainingSymbols[index];
+    }
+
     function showResult() {
-        const correctSet = [
+        let correctSet = [
             [getCorrectSymbol(backSet[0], 0), getCorrectSymbol(backSet[0], 1)],
             [getCorrectSymbol(backSet[1], 0), getCorrectSymbol(backSet[1], 1)],
             [getCorrectSymbol(backSet[2], 0), getCorrectSymbol(backSet[2], 1)]
         ];
 
-        let currentSet = frontSet.map(s => symbols[s].split(''));
+        let currentSet = frontSet.map(s => symbols[s].slice());
         let steps = [];
 
         for (let i = 0; i < 3; i++) {
@@ -152,13 +158,7 @@
         }
 
         document.getElementById('dissection-steps').innerText = steps.join('、');
-        document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join('')).join(', ');
-    }
-
-    function getCorrectSymbol(backSymbol, index) {
-        const symbols = ['▲', '■', '●'];
-        symbols.splice(symbols.indexOf(backSymbol), 1);
-        return symbols[index];
+        document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
     }
 
     function clearSelection() {
