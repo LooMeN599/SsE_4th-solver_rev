@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ロジックシミュレーション</title>
+    <title>SsE 4th encounter solver</title>
     <style>
         .container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start; /* 左寄せに変更 */
             margin-top: 20px;
         }
         .button-group {
             margin-bottom: 20px;
-        }
-        .button-group h3 {
-            margin-bottom: 10px;
         }
         .button-group div {
             margin-bottom: 10px;
@@ -28,28 +23,50 @@
             background-color: yellow;
         }
         .result {
+            display: flex;
+            flex-direction: column; /* 縦方向に変更 */
+            justify-content: flex-start; /* 左寄せに変更 */
+            align-items: flex-start; /* 左寄せに変更 */
             margin-top: 20px;
+        }
+        .result .row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 10px;
+        }
+        .header {
+            font-size: 24px; /* フォントサイズを少し小さく */
+        }
+        .flex-row {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 
+<h1 class="header">SsE 4th encounter solver</h1>
+
 <div class="container">
     <div class="button-group" id="back-set-group">
-        <h3>裏セットを選択してください</h3>
-        <div>
+        <div data-position="0">
             裏左:
             <button onclick="selectBackSet(this, '●', 0)">●</button>
             <button onclick="selectBackSet(this, '▲', 0)">▲</button>
             <button onclick="selectBackSet(this, '■', 0)">■</button>
         </div>
-        <div>
+        <div data-position="1">
             裏中:
             <button onclick="selectBackSet(this, '●', 1)">●</button>
             <button onclick="selectBackSet(this, '▲', 1)">▲</button>
             <button onclick="selectBackSet(this, '■', 1)">■</button>
         </div>
-        <div>
+        <div data-position="2">
             裏右:
             <button onclick="selectBackSet(this, '●', 2)">●</button>
             <button onclick="selectBackSet(this, '▲', 2)">▲</button>
@@ -58,48 +75,66 @@
     </div>
 
     <div class="button-group" id="front-set-group">
-        <h3>表セットを選択してください</h3>
-        <div>
-            表左:
-            <button onclick="selectFrontSet(this, '(●,●)', 0)">球体</button>
-            <button onclick="selectFrontSet(this, '(■,■)', 0)">立方体</button>
-            <button onclick="selectFrontSet(this, '(▲,▲)', 0)">三角錐</button>
-            <button onclick="selectFrontSet(this, '(●,■)', 0)">円柱</button>
-            <button onclick="selectFrontSet(this, '(●,▲)', 0)">円錐</button>
-            <button onclick="selectFrontSet(this, '(▲,■)', 0)">三角柱</button>
+        <div class="flex-row">
+            <div>表左:</div>
+            <div class="button-grid" data-position="0">
+                <button onclick="selectFrontSet(this, '(●,●)', 0)">球体</button>
+                <button onclick="selectFrontSet(this, '(■,■)', 0)">立方体</button>
+                <button onclick="selectFrontSet(this, '(▲,▲)', 0)">三角錐</button>
+                <button onclick="selectFrontSet(this, '(●,■)', 0)">円柱</button>
+                <button onclick="selectFrontSet(this, '(●,▲)', 0)">円錐</button>
+                <button onclick="selectFrontSet(this, '(▲,■)', 0)">三角柱</button>
+            </div>
         </div>
-        <div>
-            表中:
-            <button onclick="selectFrontSet(this, '(●,●)', 1)">球体</button>
-            <button onclick="selectFrontSet(this, '(■,■)', 1)">立方体</button>
-            <button onclick="selectFrontSet(this, '(▲,▲)', 1)">三角錐</button>
-            <button onclick="selectFrontSet(this, '(●,■)', 1)">円柱</button>
-            <button onclick="selectFrontSet(this, '(●,▲)', 1)">円錐</button>
-            <button onclick="selectFrontSet(this, '(▲,■)', 1)">三角柱</button>
+        <div class="flex-row">
+            <div>表中:</div>
+            <div class="button-grid" data-position="1">
+                <button onclick="selectFrontSet(this, '(●,●)', 1)">球体</button>
+                <button onclick="selectFrontSet(this, '(■,■)', 1)">立方体</button>
+                <button onclick="selectFrontSet(this, '(▲,▲)', 1)">三角錐</button>
+                <button onclick="selectFrontSet(this, '(●,■)', 1)">円柱</button>
+                <button onclick="selectFrontSet(this, '(●,▲)', 1)">円錐</button>
+                <button onclick="selectFrontSet(this, '(▲,■)', 1)">三角柱</button>
+            </div>
         </div>
-        <div>
-            表右:
-            <button onclick="selectFrontSet(this, '(●,●)', 2)">球体</button>
-            <button onclick="selectFrontSet(this, '(■,■)', 2)">立方体</button>
-            <button onclick="selectFrontSet(this, '(▲,▲)', 2)">三角錐</button>
-            <button onclick="selectFrontSet(this, '(●,■)', 2)">円柱</button>
-            <button onclick="selectFrontSet(this, '(●,▲)', 2)">円錐</button>
-            <button onclick="selectFrontSet(this, '(▲,■)', 2)">三角柱</button>
+        <div class="flex-row">
+            <div>表右:</div>
+            <div class="button-grid" data-position="2">
+                <button onclick="selectFrontSet(this, '(●,●)', 2)">球体</button>
+                <button onclick="selectFrontSet(this, '(■,■)', 2)">立方体</button>
+                <button onclick="selectFrontSet(this, '(▲,▲)', 2)">三角錐</button>
+                <button onclick="selectFrontSet(this, '(●,■)', 2)">円柱</button>
+                <button onclick="selectFrontSet(this, '(●,▲)', 2)">円錐</button>
+                <button onclick="selectFrontSet(this, '(▲,■)', 2)">三角柱</button>
+            </div>
         </div>
     </div>
 
     <div class="result" id="result">
-        <h3>解剖手順:</h3>
-        <p id="dissection-steps"></p>
-        <h3>解剖後の表セット:</h3>
-        <p id="dissected-front-set"></p>
+        <div class="row">
+            <p id="dissection-steps"></p>
+        </div>
+        <div class="row">
+            <p id="dissected-front-set"></p>
+        </div>
     </div>
+
+    <button onclick="clearSelections()">入力クリア</button>
 </div>
 
 <script>
     let backSet = ['', '', ''];
     let frontSet = ['', '', ''];
     let dissectionActions = {};
+    let correctShapes = {};
+    const symbolToName = {
+        '(●,●)': '球体',
+        '(■,■)': '立方体',
+        '(▲,▲)': '三角錐',
+        '(●,■)': '円柱',
+        '(●,▲)': '円錐',
+        '(▲,■)': '三角柱'
+    };
 
     // ページがロードされたらCSVを読み込む
     window.onload = function() {
@@ -117,28 +152,29 @@
     };
 
     function parseCSV(data) {
-    const lines = data.split('\n').filter(line => line.trim() !== '');
-    console.log('CSV行数:', lines.length);
-    const headers = lines[0].split(',').map(header => header.trim());
-    console.log('ヘッダー:', headers);
+        const lines = data.split('\n').filter(line => line.trim() !== '');
+        console.log('CSV行数:', lines.length);
+        const headers = lines[0].split(',').map(header => header.trim());
+        console.log('ヘッダー:', headers);
 
-    for (let i = 1; i < lines.length; i++) {
-        const row = lines[i].match(/("[^"]*"|[^,]+)/g).map(cell => cell.trim().replace(/(^"|"$)/g, ''));
-        console.log(`行 ${i}:`, row);  // 各行の内容を出力
+        for (let i = 1; i < lines.length; i++) {
+            const row = lines[i].match(/("[^"]*"|[^,]+)/g).map(cell => cell.trim().replace(/(^"|"$)/g, ''));
+            console.log(`行 ${i}:`, row);  // 各行の内容を出力
 
-        if (row.length === headers.length) {
-            const backSetKey = row[0];
-            const frontSetKey = row[1].replace(/\s/g, ''); // 余計な空白を削除
-            const key = `(${backSetKey}) (${frontSetKey})`;
-            dissectionActions[key] = row[3];
-            console.log('キー:', key, 'アクション:', dissectionActions[key]);
-        } else {
-            console.error(`行 ${i} の列数が一致しません`);
+            if (row.length === headers.length) {
+                const backSetKey = row[0];
+                const frontSetKey = row[1].replace(/\s/g, ''); // 余計な空白を削除
+                const key = `(${backSetKey}) (${frontSetKey})`;
+                dissectionActions[key] = row[3];
+                correctShapes[key] = row[2]; // 正解の形を格納
+                console.log('キー:', key, 'アクション:', dissectionActions[key], '正解の形:', correctShapes[key]);
+            } else {
+                console.error(`行 ${i} の列数が一致しません`);
+            }
         }
+        console.log('全アクション:', dissectionActions);
+        console.log('全正解の形:', correctShapes);
     }
-    console.log('全アクション:', dissectionActions);
-}
-
 
     function selectBackSet(button, symbol, position) {
         console.log('選択された裏セットのシンボル:', symbol, '位置:', position);
@@ -161,24 +197,42 @@
     }
 
     function highlightButton(button, position, type) {
-        const buttonGroup = type === 'back' ? document.getElementById('back-set-group') : document.getElementById('front-set-group');
-        const buttons = buttonGroup.querySelectorAll(`div:nth-child(${position + 2}) button`);
+        const buttonGroup = type === 'back' ? document.querySelector(`#back-set-group > div[data-position="${position}"]`) : document.querySelector(`.button-grid[data-position="${position}"]`);
+        const buttons = buttonGroup.querySelectorAll('button');
         buttons.forEach(btn => btn.classList.remove('highlight'));
         button.classList.add('highlight');
         console.log(type === 'back' ? '裏セットボタンのハイライト' : '表セットボタンのハイライト', '位置:', position);
     }
 
     function showResult() {
-    const trimmedBackSet = backSet.map(s => s.trim());
-    const trimmedFrontSet = frontSet.map(s => s.replace(/\s/g, ''));
-    const frontSetKey = `(${trimmedBackSet.join(', ')}) (${trimmedFrontSet.join(',')})`;
-    console.log('生成されたキー:', frontSetKey);
-    const action = dissectionActions[frontSetKey] || 'アクションが見つかりません';
-    console.log('取得されたアクション:', action);
-    document.getElementById('dissection-steps').innerText = action;
-    document.getElementById('dissected-front-set').innerText = frontSet.join(' | ');
-}
+        const trimmedBackSet = backSet.map(s => s.trim());
+        const trimmedFrontSet = frontSet.map(s => s.replace(/\s/g, ''));
+        const frontSetKey = `(${trimmedBackSet.join(', ')}) (${trimmedFrontSet.join(',')})`;
+        console.log('生成されたキー:', frontSetKey);
 
+        // キーが存在するか確認
+        if (frontSetKey in dissectionActions) {
+            const action = dissectionActions[frontSetKey];
+            const correctShapeSymbols = correctShapes[frontSetKey];
+            const correctShapeNames = correctShapeSymbols.match(/\((.*?)\)/g).map(sym => symbolToName[sym]);
+            console.log('取得されたアクション:', action);
+            document.getElementById('dissection-steps').innerText = `解剖手順: ${action}`;
+            document.getElementById('dissected-front-set').innerText = `解剖後の表セット: ${correctShapeNames.join(' | ')}`;
+        } else {
+            console.error('キーが見つかりません:', frontSetKey);
+            document.getElementById('dissection-steps').innerText = '解剖手順: アクションが見つかりません';
+            document.getElementById('dissected-front-set').innerText = '解剖後の表セット:';
+        }
+    }
+
+    function clearSelections() {
+        backSet = ['', '', ''];
+        frontSet = ['', '', ''];
+        document.querySelectorAll('.highlight').forEach(btn => btn.classList.remove('highlight'));
+        document.getElementById('dissection-steps').innerText = '解剖手順:';
+        document.getElementById('dissected-front-set').innerText = '解剖後の表セット:';
+        console.log('選択がクリアされました');
+    }
 </script>
 
 </body>
