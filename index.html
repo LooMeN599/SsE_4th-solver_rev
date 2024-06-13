@@ -14,17 +14,18 @@
         .button-group {
             margin-bottom: 20px;
         }
+        .button-group h3 {
+            margin-bottom: 10px;
+        }
+        .button-group div {
+            margin-bottom: 10px;
+        }
         .button-group button {
             margin: 5px;
             padding: 10px;
         }
         .highlight {
             background-color: yellow;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-gap: 10px;
         }
         .result {
             margin-top: 20px;
@@ -36,20 +37,54 @@
 <div class="container">
     <div class="button-group" id="back-set-group">
         <h3>裏セットを選択してください</h3>
-        <button onclick="selectBackSet(this, '▲')">▲</button>
-        <button onclick="selectBackSet(this, '■')">■</button>
-        <button onclick="selectBackSet(this, '●')">●</button>
+        <div>
+            裏左:
+            <button onclick="selectBackSet(this, '▲', 0)">▲</button>
+            <button onclick="selectBackSet(this, '■', 0)">■</button>
+            <button onclick="selectBackSet(this, '●', 0)">●</button>
+        </div>
+        <div>
+            裏中:
+            <button onclick="selectBackSet(this, '▲', 1)">▲</button>
+            <button onclick="selectBackSet(this, '■', 1)">■</button>
+            <button onclick="selectBackSet(this, '●', 1)">●</button>
+        </div>
+        <div>
+            裏右:
+            <button onclick="selectBackSet(this, '▲', 2)">▲</button>
+            <button onclick="selectBackSet(this, '■', 2)">■</button>
+            <button onclick="selectBackSet(this, '●', 2)">●</button>
+        </div>
     </div>
 
-    <div class="button-group">
+    <div class="button-group" id="front-set-group">
         <h3>表セットを選択してください</h3>
-        <div class="grid" id="front-set-group">
-            <button onclick="selectFrontSet(this, '球体')">球体</button>
-            <button onclick="selectFrontSet(this, '立方体')">立方体</button>
-            <button onclick="selectFrontSet(this, '三角錐')">三角錐</button>
-            <button onclick="selectFrontSet(this, '円柱')">円柱</button>
-            <button onclick="selectFrontSet(this, '円錐')">円錐</button>
-            <button onclick="selectFrontSet(this, '三角柱')">三角柱</button>
+        <div>
+            表左:
+            <button onclick="selectFrontSet(this, '球体', 0)">球体</button>
+            <button onclick="selectFrontSet(this, '立方体', 0)">立方体</button>
+            <button onclick="selectFrontSet(this, '三角錐', 0)">三角錐</button>
+            <button onclick="selectFrontSet(this, '円柱', 0)">円柱</button>
+            <button onclick="selectFrontSet(this, '円錐', 0)">円錐</button>
+            <button onclick="selectFrontSet(this, '三角柱', 0)">三角柱</button>
+        </div>
+        <div>
+            表中:
+            <button onclick="selectFrontSet(this, '球体', 1)">球体</button>
+            <button onclick="selectFrontSet(this, '立方体', 1)">立方体</button>
+            <button onclick="selectFrontSet(this, '三角錐', 1)">三角錐</button>
+            <button onclick="selectFrontSet(this, '円柱', 1)">円柱</button>
+            <button onclick="selectFrontSet(this, '円錐', 1)">円錐</button>
+            <button onclick="selectFrontSet(this, '三角柱', 1)">三角柱</button>
+        </div>
+        <div>
+            表右:
+            <button onclick="selectFrontSet(this, '球体', 2)">球体</button>
+            <button onclick="selectFrontSet(this, '立方体', 2)">立方体</button>
+            <button onclick="selectFrontSet(this, '三角錐', 2)">三角錐</button>
+            <button onclick="selectFrontSet(this, '円柱', 2)">円柱</button>
+            <button onclick="selectFrontSet(this, '円錐', 2)">円錐</button>
+            <button onclick="selectFrontSet(this, '三角柱', 2)">三角柱</button>
         </div>
     </div>
 
@@ -59,34 +94,31 @@
 </div>
 
 <script>
-    let backSet = [];
-    let frontSet = [];
+    let backSet = ['', '', ''];
+    let frontSet = ['', '', ''];
     const symbols = { '球体': '●', '立方体': '■', '三角錐': '▲', '円柱': '■●', '円錐': '▲●', '三角柱': '▲■' };
 
-    function selectBackSet(button, symbol) {
-        if (backSet.length < 3 && !backSet.includes(symbol)) {
-            backSet.push(symbol);
-            button.classList.add('highlight');
-        }
-        if (backSet.length === 3) {
-            checkSelection();
-        }
-    }
-
-    function selectFrontSet(button, solid) {
-        if (frontSet.length < 3 && !frontSet.includes(solid)) {
-            frontSet.push(solid);
-            button.classList.add('highlight');
-        }
-        if (frontSet.length === 3) {
-            checkSelection();
-        }
-    }
-
-    function checkSelection() {
-        if (backSet.length === 3 && frontSet.length === 3) {
+    function selectBackSet(button, symbol, position) {
+        backSet[position] = symbol;
+        highlightButton(button, position, 'back');
+        if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
             showResult();
         }
+    }
+
+    function selectFrontSet(button, solid, position) {
+        frontSet[position] = solid;
+        highlightButton(button, position, 'front');
+        if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
+            showResult();
+        }
+    }
+
+    function highlightButton(button, position, type) {
+        const buttonGroup = type === 'back' ? document.getElementById('back-set-group') : document.getElementById('front-set-group');
+        const buttons = buttonGroup.querySelectorAll(`div:nth-child(${position + 2}) button`);
+        buttons.forEach(btn => btn.classList.remove('highlight'));
+        button.classList.add('highlight');
     }
 
     function showResult() {
@@ -129,8 +161,8 @@
     }
 
     function clearSelection() {
-        backSet = [];
-        frontSet = [];
+        backSet = ['', '', ''];
+        frontSet = ['', '', ''];
         document.querySelectorAll('button').forEach(button => {
             button.classList.remove('highlight');
         });
