@@ -101,7 +101,14 @@
 <script>
     let backSet = ['', '', ''];
     let frontSet = ['', '', ''];
-    const symbols = { '球体': ['●', '●'], '立方体': ['■', '■'], '三角錐': ['▲', '▲'], '円柱': ['■', '●'], '円錐': ['▲', '●'], '三角柱': ['▲', '■'] };
+    const symbols = {
+        '球体': ['●', '●'], 
+        '立方体': ['■', '■'], 
+        '三角錐': ['▲', '▲'], 
+        '円柱': ['■', '●'], 
+        '円錐': ['▲', '●'], 
+        '三角柱': ['▲', '■']
+    };
 
     function selectBackSet(button, symbol, position) {
         backSet[position] = symbol;
@@ -126,17 +133,16 @@
         button.classList.add('highlight');
     }
 
-    function getCorrectSymbol(backSymbol, index) {
+    function getCorrectSymbols(backSymbol) {
         const allSymbols = ['▲', '■', '●'];
-        const remainingSymbols = allSymbols.filter(sym => sym !== backSymbol);
-        return remainingSymbols[index];
+        return allSymbols.filter(sym => sym !== backSymbol);
     }
 
     function showResult() {
         let correctSet = [
-            [getCorrectSymbol(backSet[0], 0), getCorrectSymbol(backSet[0], 1)],
-            [getCorrectSymbol(backSet[1], 0), getCorrectSymbol(backSet[1], 1)],
-            [getCorrectSymbol(backSet[2], 0), getCorrectSymbol(backSet[2], 1)]
+            getCorrectSymbols(backSet[0]),
+            getCorrectSymbols(backSet[1]),
+            getCorrectSymbols(backSet[2])
         ];
 
         let currentSet = frontSet.map(s => symbols[s].slice());
