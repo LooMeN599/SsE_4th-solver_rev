@@ -88,8 +88,6 @@
         </div>
     </div>
 
-    <button onclick="clearSelection()">入力クリア</button>
-
     <div class="result" id="result">
         <h3>解剖手順:</h3>
         <p id="dissection-steps"></p>
@@ -165,16 +163,6 @@
 
         document.getElementById('dissection-steps').innerText = steps.join('、');
         document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
-    }
-
-    function clearSelection() {
-        backSet = ['', '', ''];
-        frontSet = ['', '', ''];
-        document.querySelectorAll('button').forEach(button => {
-            button.classList.remove('highlight');
-        });
-        document.getElementById('dissection-steps').innerText = '';
-        document.getElementById('dissected-front-set').innerText = '';
     }
 </script>
 
