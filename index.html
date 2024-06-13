@@ -161,24 +161,32 @@
     });
     console.log('現在のセット (表セット): ', currentSet);
 
+    let found = false;
     let steps = [];
+    let loopCount = 0; // ループ回数をカウント
 
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 2; j++) {
-            if (!correctSet[i].includes(currentSet[i][j])) {
-                for (let k = 0; k < 3; k++) {
-                    if (i !== k && correctSet[k].includes(currentSet[i][j])) {
-                        let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
-                        if (swapIndex !== -1 && currentSet[k][swapIndex] !== currentSet[i][j]) {
-                            console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
-                            // [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
-                            steps.push(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
-                            break; // 交換を実行したら内側のループを抜ける
+    while (!found && loopCount < 1000) { // ループ回数の制限を設定して無限ループを防ぐ
+        found = true;
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 2; j++) {
+                if (!correctSet[i].includes(currentSet[i][j])) {
+                    for (let k = 0; k < 3; k++) {
+                        if (i !== k && correctSet[k].includes(currentSet[i][j])) {
+                            let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
+                            if (swapIndex !== -1 && currentSet[k][swapIndex] !== currentSet[i][j]) {
+                                console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
+                                steps.push(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
+                                [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
+                                found = false;
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
+        loopCount++;
     }
 
     console.log('解剖手順: ', steps);
@@ -191,6 +199,10 @@
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
+
+
+
+
 
 </script>
 
