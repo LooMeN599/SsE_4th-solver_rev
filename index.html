@@ -111,6 +111,7 @@
     function selectBackSet(button, symbol, position) {
         backSet[position] = symbol;
         highlightButton(button, position, 'back');
+        console.log('裏セット: ', backSet);
         if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
             showResult();
         }
@@ -119,6 +120,7 @@
     function selectFrontSet(button, solid, position) {
         frontSet[position] = solid;
         highlightButton(button, position, 'front');
+        console.log('表セット: ', frontSet);
         if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
             showResult();
         }
@@ -143,7 +145,10 @@
             getCorrectSymbols(backSet[2])
         ];
 
+        console.log('正解の形: ', correctSet);
+
         let currentSet = frontSet.map(s => symbols[s].slice());
+        console.log('現在のセット: ', currentSet);
         let steps = [];
 
         for (let i = 0; i < 3; i++) {
@@ -162,6 +167,8 @@
                 }
             }
         }
+
+        console.log('解剖手順: ', steps);
 
         document.getElementById('dissection-steps').innerText = steps.join('、');
         document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
