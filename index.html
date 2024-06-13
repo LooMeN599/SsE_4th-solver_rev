@@ -3,130 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4th encounter solver</title>
+    <title>ロジックシミュレーション</title>
     <style>
-        h2 {
-            font-size: 18px;
+        .container {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            margin-top: 20px;
         }
-
-        .slot {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px; /* スロット間の余白を追加 */
+        .button-group {
+            margin-bottom: 20px;
         }
-
-        .button-grid {
+        .button-group button {
+            margin: 5px;
+            padding: 10px;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        .grid {
             display: grid;
-            grid-template-columns: repeat(3, auto);
-            grid-gap: 5px; /* ボタン間の余白を追加 */
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
         }
-
-        .num-set-button {
-            font-size: 16px;
-            padding: 5px 15px; /* ボタンの縦をわずかに縮小 */
-        }
-
-        .selected {
-            background-color: lightblue; /* 選択されたボタンの背景色 */
-        }
-
-        .slot:nth-of-type(n+4) {
-            margin-top: 10px; /* スロット表D1、表E1、表F1の縦方向の余白を追加 */
-        }
-
-        button {
-            font-size: 16px;
-            padding: 5px 20px; /* 入力クリアボタンを少し大きくし、縦をわずかに縮小 */
-        }
-
-        .extra-padding {
-            margin-top: 10px; /* 表D1、表E1、表F1の上下余白を追加 */
-        }
-
-        .reduced-height {
-            line-height: 0.6; /* 表D3、表E3、表F3の高さを縮める */
+        .result {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>4th encounter solver</h1>
-    <div>
-        <div class="slot">
-            <h2>裏左：</h2>
-            <div>
-                <button class="num-set-button num-set-button-A" onclick="selectButton(event)">▲</button>
-                <button class="num-set-button num-set-button-A" onclick="selectButton(event)">■</button>
-                <button class="num-set-button num-set-button-A" onclick="selectButton(event)">●</button>
-            </div>
-        </div>
-        <div class="slot">
-            <h2>裏中：</h2>
-            <div>
-                <button class="num-set-button num-set-button-B" onclick="selectButton(event)">▲</button>
-                <button class="num-set-button num-set-button-B" onclick="selectButton(event)">■</button>
-                <button class="num-set-button num-set-button-B" onclick="selectButton(event)">●</button>
-            </div>
-        </div>
-        <div class="slot">
-            <h2>裏右：</h2>
-            <div>
-                <button class="num-set-button num-set-button-C" onclick="selectButton(event)">▲</button>
-                <button class="num-set-button num-set-button-C" onclick="selectButton(event)">■</button>
-                <button class="num-set-button num-set-button-C" onclick="selectButton(event)">●</button>
-            </div>
-        </div>
-        <div class="slot extra-padding">
-            <h2>表左：</h2>
-            <div class="button-grid">
-                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">球体</button>
-                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">立方体</button>
-                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">三角錐</button>
-                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">円柱</button>
-                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">円錐</button>
-                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">三角柱</button>
-            </div>
-        </div>    
-        <div class="slot extra-padding">
-            <h2>表中：</h2>
-            <div class="button-grid">
-                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">球体</button>
-                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">立方体</button>
-                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">三角錐</button>
-                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">円柱</button>
-                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">円錐</button>
-                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">三角柱</button>
-            </div>
-        </div>
-        <div class="slot extra-padding">
-            <h2>表右：</h2>
-            <div class="button-grid">
-                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">球体</button>
-                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">立方体</button>
-                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">三角錐</button>
-                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">円柱</button>
-                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">円錐</button>
-                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">三角柱</button>
-            </div>
-        </div>
-        <button class="clear-button" onclick="clearSelection()">入力クリア</button>
+
+<div class="container">
+    <div class="button-group" id="back-set-group">
+        <h3>裏セットを選択してください</h3>
+        <button onclick="selectBackSet(this, '▲')">▲</button>
+        <button onclick="selectBackSet(this, '■')">■</button>
+        <button onclick="selectBackSet(this, '●')">●</button>
     </div>
 
-    <script>
-        function clearSelection() {
-            // Clear all selected buttons
-            document.querySelectorAll('.num-set-button').forEach(button => {
-                button.classList.remove('selected');
-            });
+    <div class="button-group">
+        <h3>表セットを選択してください</h3>
+        <div class="grid" id="front-set-group">
+            <button onclick="selectFrontSet(this, '球体')">球体</button>
+            <button onclick="selectFrontSet(this, '立方体')">立方体</button>
+            <button onclick="selectFrontSet(this, '三角錐')">三角錐</button>
+            <button onclick="selectFrontSet(this, '円柱')">円柱</button>
+            <button onclick="selectFrontSet(this, '円錐')">円錐</button>
+            <button onclick="selectFrontSet(this, '三角柱')">三角柱</button>
+        </div>
+    </div>
+
+    <button onclick="clearSelection()">入力クリア</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    let backSet = [];
+    let frontSet = [];
+    const symbols = { '球体': '●', '立方体': '■', '三角錐': '▲', '円柱': '■●', '円錐': '▲●', '三角柱': '▲■' };
+
+    function selectBackSet(button, symbol) {
+        if (backSet.length < 3 && !backSet.includes(symbol)) {
+            backSet.push(symbol);
+            button.classList.add('highlight');
+        }
+        if (backSet.length === 3) {
+            checkSelection();
+        }
+    }
+
+    function selectFrontSet(button, solid) {
+        if (frontSet.length < 3 && !frontSet.includes(solid)) {
+            frontSet.push(solid);
+            button.classList.add('highlight');
+        }
+        if (frontSet.length === 3) {
+            checkSelection();
+        }
+    }
+
+    function checkSelection() {
+        if (backSet.length === 3 && frontSet.length === 3) {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        const correctShape = [
+            symbols['球体'], symbols['立方体'], symbols['三角錐'],
+            symbols['円柱'], symbols['円錐'], symbols['三角柱']
+        ];
+
+        let correctSet = [
+            [correctShape.find(s => s !== backSet[0]), correctShape.find(s => s !== backSet[0] && s !== correctSet[0])],
+            [correctShape.find(s => s !== backSet[1]), correctShape.find(s => s !== backSet[1] && s !== correctSet[1])],
+            [correctShape.find(s => s !== backSet[2]), correctShape.find(s => s !== backSet[2] && s !== correctSet[2])]
+        ];
+
+        let currentSet = frontSet.map(s => symbols[s].split(''));
+        let steps = [];
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 2; j++) {
+                if (currentSet[i][j] !== correctSet[i][j]) {
+                    for (let k = 0; k < 3; k++) {
+                        if (i !== k && correctSet[k].includes(currentSet[i][j])) {
+                            let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
+                            steps.push(`左の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
+                            [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        function selectButton(event) {
-            const parentDiv = event.target.closest('.slot');
-            const buttons = parentDiv.querySelectorAll('.num-set-button');
-            buttons.forEach(button => button.classList.remove('selected'));
-            event.target.classList.add('selected');
-        }
-    </script>
+        let resultHTML = `
+            <h3>解剖手順:</h3>
+            <p>${steps.join('、')}</p>
+            <h3>解剖後の表セット:</h3>
+            <p>${currentSet.map(set => set.join('')).join(', ')}</p>
+        `;
+        document.getElementById('result').innerHTML = resultHTML;
+    }
+
+    function clearSelection() {
+        backSet = [];
+        frontSet = [];
+        document.querySelectorAll('button').forEach(button => {
+            button.classList.remove('highlight');
+        });
+        document.getElementById('result').innerHTML = '';
+    }
+</script>
+
 </body>
 </html>
