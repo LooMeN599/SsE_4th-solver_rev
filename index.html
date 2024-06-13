@@ -152,7 +152,8 @@ function selectFrontSet(button, solid, position) {
 
     console.log('正解の形: ', correctSet);
 
-    let currentSet = frontSet.map(solid => symbols[solid]);
+    // 表セットを記号に変換
+    let currentSet = frontSet.map(s => symbols[s]);
     console.log('現在のセット (表セット): ', currentSet);
     let steps = [];
 
@@ -166,7 +167,7 @@ function selectFrontSet(button, solid, position) {
                             console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
-                            break;
+                            break; // 交換を実行したら内側のループを抜ける
                         }
                     }
                 }
@@ -176,6 +177,7 @@ function selectFrontSet(button, solid, position) {
 
     console.log('解剖手順: ', steps);
 
+    // 解剖手順がない場合の処理を追加
     if (steps.length === 0) {
         steps.push("交換する必要はありません。");
     }
