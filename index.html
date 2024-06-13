@@ -111,22 +111,6 @@
             </div>
         </div>
         <button class="clear-button" onclick="clearSelection()">入力クリア</button>
-        <div>
-            <h2>裏セット：</h2>
-            <div id="ura-set"></div>
-        </div>
-        <div>
-            <h2>正解の形：</h2>
-            <div id="correct-form"></div>
-        </div>
-        <div>
-            <h2>表セット：</h2>
-            <div id="omote-set"></div>
-        </div>
-        <div>
-            <h2>解剖アクション：</h2>
-            <div id="actions"></div>
-        </div>
     </div>
 
     <script>
@@ -135,11 +119,6 @@
             document.querySelectorAll('.num-set-button').forEach(button => {
                 button.classList.remove('selected');
             });
-            // Clear results
-            document.getElementById('ura-set').innerHTML = '';
-            document.getElementById('correct-form').innerHTML = '';
-            document.getElementById('omote-set').innerHTML = '';
-            document.getElementById('actions').innerHTML = '';
         }
 
         function selectButton(event) {
@@ -147,51 +126,7 @@
             const buttons = parentDiv.querySelectorAll('.num-set-button');
             buttons.forEach(button => button.classList.remove('selected'));
             event.target.classList.add('selected');
-            updateResults();
         }
-
-        function updateResults() {
-            const uraSet = getUraSet();
-            const correctForm = getCorrectForm(uraSet);
-            const omoteSet = getOmoteSet();
-            const actions = calculateActions(omoteSet, correctForm);
-
-            document.getElementById('ura-set').innerText = `(${uraSet.join(', ')})`;
-            document.getElementById('correct-form').innerText = JSON.stringify(correctForm);
-            document.getElementById('omote-set').innerText = JSON.stringify(omoteSet);
-            document.getElementById('actions').innerText = actions.join(', ');
-        }
-
-        function getUraSet() {
-            const selected = document.querySelectorAll('.num-set-button-A.selected, .num-set-button-B.selected, .num-set-button-C.selected');
-            return Array.from(selected).map(button => button.textContent);
-        }
-
-        function getCorrectForm(uraSet) {
-            const allSymbols = ['▲', '■', '●'];
-            return uraSet.map(selected => allSymbols.filter(symbol => symbol !== selected));
-        }
-
-        function getOmoteSet() {
-            const selected = document.querySelectorAll('.num-set-button-D.selected, .num-set-button-E.selected, .num-set-button-F.selected');
-            const mapping = {
-                '球体': ['●', '●'],
-                '立方体': ['■', '■'],
-                '三角錐': ['▲', '▲'],
-                '円柱': ['■', '●'],
-                '円錐': ['▲', '●'],
-                '三角柱': ['▲', '■']
-            };
-            return Array.from(selected).map(button => mapping[button.textContent]);
-        }
-
-        function calculateActions(omoteSet, correctForm) {
-            const actions = [];
-            const positions = ['左', '中', '右'];
-
-            // Function to find the index of an element in an array of arrays
-            function findIndex(arr, element) {
-                for (let i = 0; i < arr.length; i++) {
-                    if (JSON.stringify(arr[i]) === JSON.stringify(element)) {
-                        return i;
-                    }
+    </script>
+</body>
+</html>
