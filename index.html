@@ -147,7 +147,8 @@
 
     console.log('正解の形: ', correctSet);
 
-    let currentSet = frontSet.map(s => symbols[s].slice());
+    // 表セットを記号に変換
+    let currentSet = frontSet.map(s => symbols[s]);
     console.log('現在のセット: ', currentSet);
     let steps = [];
 
@@ -171,9 +172,15 @@
 
     console.log('解剖手順: ', steps);
 
+    // 解剖手順がない場合の処理を追加
+    if (steps.length === 0) {
+        steps.push("交換する必要はありません。");
+    }
+
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
+
 
 
 
