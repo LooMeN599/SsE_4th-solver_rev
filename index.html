@@ -153,11 +153,14 @@
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 2; j++) {
+            console.log(`現在のセット[${i}][${j}]: `, currentSet[i][j]);
             if (currentSet[i][j] !== correctSet[i][j]) {
                 for (let k = 0; k < 3; k++) {
+                    console.log(`正解の形[${k}]: `, correctSet[k]);
                     if (i !== k && correctSet[k].includes(currentSet[i][j])) {
                         let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
                         if (swapIndex !== -1) {
+                            console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
                         }
