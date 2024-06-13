@@ -35,7 +35,6 @@
 <body>
 
 <div class="container">
-    <input type="file" id="fileInput" accept=".csv">
     <div class="button-group" id="back-set-group">
         <h3>裏セットを選択してください</h3>
         <div>
@@ -102,22 +101,21 @@
     let frontSet = ['', '', ''];
     let dissectionActions = {};
 
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const csvData = event.target.result;
-            parseCSV(csvData);
-        };
-        reader.readAsText(file);
-    });
+    // ページがロードされたらCSVを読み込む
+    window.onload = function() {
+        fetch('data.csv')
+            .then(response => response.text())
+            .then(data => {
+                parseCSV(data);
+            });
+    };
 
     function parseCSV(data) {
-        const lines = data.split('\n');
+        const lines = data.split('\n').filter(line => line.trim() !== '');
         const headers = lines[0].split(',');
         for (let i = 1; i < lines.length; i++) {
             const row = lines[i].split(',');
-            if (row.length === headers.length) {
+            if (row.length === headers.length && row[0] && row[1] && row[3]) {
                 const key = `(${row[0].trim()}) (${row[1].trim()})`;
                 dissectionActions[key] = row[3].trim();
             }
@@ -152,7 +150,7 @@
         const frontSetKey = `(${backSet.join(', ')}) (${frontSet.join(', ')})`;
         const action = dissectionActions[frontSetKey] || 'アクションが見つかりません';
         document.getElementById('dissection-steps').innerText = action;
-        document.getElementById('dissected-front-set').innerText = frontSet.map(set => set.join(', ')).join(' | ');
+        document.getElementById('dissected-front-set').innerText = frontSet.join(' | ');
     }
 </script>
 
