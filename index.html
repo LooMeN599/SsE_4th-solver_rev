@@ -49,7 +49,6 @@
             line-height: 0.6; /* 表D3、表E3、表F3の高さを縮める */
         }
     </style>
-
 </head>
 <body>
     <h1>4th encounter solver</h1>
@@ -57,74 +56,77 @@
         <div class="slot">
             <h2>裏左：</h2>
             <div>
-                <button class="num-set-button num-set-button-A">▲</button>
-                <button class="num-set-button num-set-button-A">■</button>
-                <button class="num-set-button num-set-button-A">●</button>
+                <button class="num-set-button num-set-button-A" onclick="selectButton(event)">▲</button>
+                <button class="num-set-button num-set-button-A" onclick="selectButton(event)">■</button>
+                <button class="num-set-button num-set-button-A" onclick="selectButton(event)">●</button>
             </div>
         </div>
         <div class="slot">
             <h2>裏中：</h2>
             <div>
-                <button class="num-set-button num-set-button-B">▲</button>
-                <button class="num-set-button num-set-button-B">■</button>
-                <button class="num-set-button num-set-button-B">●</button>
+                <button class="num-set-button num-set-button-B" onclick="selectButton(event)">▲</button>
+                <button class="num-set-button num-set-button-B" onclick="selectButton(event)">■</button>
+                <button class="num-set-button num-set-button-B" onclick="selectButton(event)">●</button>
             </div>
         </div>
         <div class="slot">
             <h2>裏右：</h2>
             <div>
-                <button class="num-set-button num-set-button-C">▲</button>
-                <button class="num-set-button num-set-button-C">■</button>
-                <button class="num-set-button num-set-button-C">●</button>
+                <button class="num-set-button num-set-button-C" onclick="selectButton(event)">▲</button>
+                <button class="num-set-button num-set-button-C" onclick="selectButton(event)">■</button>
+                <button class="num-set-button num-set-button-C" onclick="selectButton(event)">●</button>
             </div>
         </div>
         <div class="slot extra-padding">
             <h2>表左：</h2>
             <div class="button-grid">
-                <button class="num-set-button num-set-button-D">球体</button>
-                <button class="num-set-button num-set-button-D">立方体</button>
-                <button class="num-set-button num-set-button-D">三角錐</button>
-                <button class="num-set-button num-set-button-D">円柱</button>
-                <button class="num-set-button num-set-button-D">円錐</button>
-                <button class="num-set-button num-set-button-D">三角柱</button>
+                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">球体</button>
+                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">立方体</button>
+                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">三角錐</button>
+                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">円柱</button>
+                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">円錐</button>
+                <button class="num-set-button num-set-button-D" onclick="selectButton(event)">三角柱</button>
             </div>
         </div>    
         <div class="slot extra-padding">
             <h2>表中：</h2>
             <div class="button-grid">
-                <button class="num-set-button num-set-button-E">球体</button>
-                <button class="num-set-button num-set-button-E">立方体</button>
-                <button class="num-set-button num-set-button-E">三角錐</button>
-                <button class="num-set-button num-set-button-E">円柱</button>
-                <button class="num-set-button num-set-button-E">円錐</button>
-                <button class="num-set-button num-set-button-E">三角柱</button>
+                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">球体</button>
+                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">立方体</button>
+                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">三角錐</button>
+                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">円柱</button>
+                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">円錐</button>
+                <button class="num-set-button num-set-button-E" onclick="selectButton(event)">三角柱</button>
             </div>
         </div>
         <div class="slot extra-padding">
             <h2>表右：</h2>
             <div class="button-grid">
-                <button class="num-set-button num-set-button-F">球体</button>
-                <button class="num-set-button num-set-button-F">立方体</button>
-                <button class="num-set-button num-set-button-F">三角錐</button>
-                <button class="num-set-button num-set-button-F">円柱</button>
-                <button class="num-set-button num-set-button-F">円錐</button>
-                <button class="num-set-button num-set-button-F">三角柱</button>
+                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">球体</button>
+                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">立方体</button>
+                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">三角錐</button>
+                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">円柱</button>
+                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">円錐</button>
+                <button class="num-set-button num-set-button-F" onclick="selectButton(event)">三角柱</button>
             </div>
         </div>
-        <div class="slot reduced-height">
-            <h2>表左：</h2>
-            <div id="result-D3"></div>
-        </div>
-        <div class="slot reduced-height">
-            <h2>表中：</h2>
-            <div id="result-E3"></div>
-        </div>
-        <div class="slot reduced-height">
-            <h2>表右：</h2>
-            <div id="result-F3"></div>
-        </div>
         <button class="clear-button" onclick="clearSelection()">入力クリア</button>
-        <div class="slot hidden">
     </div>
+
+    <script>
+        function clearSelection() {
+            // Clear all selected buttons
+            document.querySelectorAll('.num-set-button').forEach(button => {
+                button.classList.remove('selected');
+            });
+        }
+
+        function selectButton(event) {
+            const parentDiv = event.target.closest('.slot');
+            const buttons = parentDiv.querySelectorAll('.num-set-button');
+            buttons.forEach(button => button.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+    </script>
 </body>
 </html>
