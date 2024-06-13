@@ -126,18 +126,6 @@
         }
     }
 
-    function highlightButton(button, position, type) {
-        const buttonGroup = type === 'back' ? document.getElementById('back-set-group') : document.getElementById('front-set-group');
-        const buttons = buttonGroup.querySelectorAll(`div:nth-child(${position + 2}) button`);
-        buttons.forEach(btn => btn.classList.remove('highlight'));
-        button.classList.add('highlight');
-    }
-
-    function getCorrectSymbols(backSymbol) {
-        const allSymbols = ['▲', '■', '●'];
-        return allSymbols.filter(sym => sym !== backSymbol);
-    }
-
     function showResult() {
     let correctSet = [
         getCorrectSymbols(backSet[0]),
@@ -161,6 +149,11 @@
                             console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
+                            correctSet = [
+                                getCorrectSymbols(backSet[0]),
+                                getCorrectSymbols(backSet[1]),
+                                getCorrectSymbols(backSet[2])
+                            ];
                             break;
                         }
                     }
@@ -174,6 +167,7 @@
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
+
 
 
 </script>
