@@ -152,7 +152,7 @@
                     for (let k = 0; k < 3; k++) {
                         if (i !== k && correctSet[k].includes(currentSet[i][j])) {
                             let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
-                            steps.push(`左の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
+                            steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
                             [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
                             break;
                         }
