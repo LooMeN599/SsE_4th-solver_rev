@@ -118,13 +118,13 @@
     }
 
     function selectFrontSet(button, solid, position) {
-        frontSet[position] = symbols[solid]; // 図形の文字列をsymbolsオブジェクトから取得して格納する
-        highlightButton(button, position, 'front');
-        console.log('表セット: ', frontSet);
-        if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
-            showResult();
-        }
+    frontSet[position] = symbols[solid][position]; // 図形の文字列をsymbolsオブジェクトから取得して格納する
+    highlightButton(button, position, 'front');
+    console.log('表セット: ', frontSet);
+    if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
+        showResult();
     }
+}
 
     function highlightButton(button, position, type) {
         const buttonGroup = type === 'back' ? document.getElementById('back-set-group') : document.getElementById('front-set-group');
