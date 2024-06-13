@@ -109,16 +109,16 @@
     };
 
     function selectBackSet(button, symbol, position) {
-        backSet[position] = symbol;
-        highlightButton(button, position, 'back');
-        console.log('裏セット: ', backSet);
-        if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
-            showResult();
-        }
+    backSet[position] = symbol;
+    highlightButton(button, position, 'back');
+    console.log('裏セット: ', backSet);
+    if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
+        showResult();
     }
+}
 
-    function selectFrontSet(button, solid, position) {
-    frontSet[position] = solid; // 図形の文字列をfrontSetに直接格納する
+function selectFrontSet(button, solid, position) {
+    frontSet[position] = solid;
     highlightButton(button, position, 'front');
     console.log('表セット: ', frontSet);
     if (backSet.every(val => val !== '') && frontSet.every(val => val !== '')) {
@@ -126,60 +126,52 @@
     }
 }
 
-    function highlightButton(button, position, type) {
-        const buttonGroup = type === 'back' ? document.getElementById('back-set-group') : document.getElementById('front-set-group');
-        const buttons = buttonGroup.querySelectorAll(`div:nth-child(${position + 2}) button`);
-        buttons.forEach(btn => btn.classList.remove('highlight'));
-        button.classList.add('highlight');
+function showResult() {
+    if (backSet.some(val => val === '') || frontSet.some(val => val === '')) {
+        console.log('すべてのセットが選択されていません。');
+        return;
     }
+    
+    let correctSet = [
+        getCorrectSymbols(backSet[0]),
+        getCorrectSymbols(backSet[1]),
+        getCorrectSymbols(backSet[2])
+    ];
 
-    function getCorrectSymbols(backSymbol) {
-        const allSymbols = ['▲', '■', '●'];
-        return allSymbols.filter(sym => sym !== backSymbol);
-    }
+    console.log('正解の形: ', correctSet);
 
-    function showResult() {
-        let correctSet = [
-            getCorrectSymbols(backSet[0]),
-            getCorrectSymbols(backSet[1]),
-            getCorrectSymbols(backSet[2])
-        ];
+    let currentSet = frontSet.map(solid => symbols[solid]);
+    console.log('現在のセット (表セット): ', currentSet);
+    let steps = [];
 
-        console.log('正解の形: ', correctSet);
-
-        // 表セットを記号に変換
-        let currentSet = frontSet.map(solid => symbols[solid]);
-        console.log('現在のセット (表セット): ', currentSet);
-        let steps = [];
-
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 2; j++) {
-                if (!correctSet[i].includes(currentSet[i][j])) {
-                    for (let k = 0; k < 3; k++) {
-                        if (i !== k && correctSet[k].includes(currentSet[i][j])) {
-                            let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
-                            if (swapIndex !== -1 && currentSet[k][swapIndex] !== currentSet[i][j]) {
-                                console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
-                                steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
-                                [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
-                                break; // 交換を実行したら内側のループを抜ける
-                            }
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 2; j++) {
+            if (!correctSet[i].includes(currentSet[i][j])) {
+                for (let k = 0; k < 3; k++) {
+                    if (i !== k && correctSet[k].includes(currentSet[i][j])) {
+                        let swapIndex = currentSet[k].indexOf(correctSet[i][j]);
+                        if (swapIndex !== -1 && currentSet[k][swapIndex] !== currentSet[i][j]) {
+                            console.log(`交換: ${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
+                            steps.push(`${['左', '中', '右'][i]}の${currentSet[i][j]}を${['左', '中', '右'][k]}の${currentSet[k][swapIndex]}と交換`);
+                            [currentSet[i][j], currentSet[k][swapIndex]] = [currentSet[k][swapIndex], currentSet[i][j]];
+                            break;
                         }
                     }
                 }
             }
         }
-
-        console.log('解剖手順: ', steps);
-
-        // 解剖手順がない場合の処理を追加
-        if (steps.length === 0) {
-            steps.push("交換する必要はありません。");
-        }
-
-        document.getElementById('dissection-steps').innerText = steps.join('、');
-        document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
     }
+
+    console.log('解剖手順: ', steps);
+
+    if (steps.length === 0) {
+        steps.push("交換する必要はありません。");
+    }
+
+    document.getElementById('dissection-steps').innerText = steps.join('、');
+    document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
+}
+
 </script>
 
 </body>
