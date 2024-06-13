@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4th encounter solver</title>
+    <style>
+        h2 {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .slot {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; /* スロット間の余白を追加 */
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            grid-gap: 5px; /* ボタン間の余白を追加 */
+        }
+
+        .num-set-button {
+            font-size: 16px;
+            padding: 5px 15px; /* ボタンの縦をわずかに縮小 */
+        }
+
+        .selected {
+            background-color: lightblue; /* 選択されたボタンの背景色 */
+        }
+
+        .slot:nth-of-type(n+4) {
+            margin-top: 10px; /* スロット表D1、表E1、表F1の縦方向の余白を追加 */
+        }
+
+        button {
+            font-size: 16px;
+            padding: 5px 20px; /* 入力クリアボタンを少し大きくし、縦をわずかに縮小 */
+        }
+
+        .extra-padding {
+            margin-top: 10px; /* 表D1、表E1、表F1の上下余白を追加 */
+        }
+
+        .reduced-height {
+            line-height: 0.6; /* 表D3、表E3、表F3の高さを縮める */
+        }
+    </style>
+
+</head>
+<body>
+    <h1>4th encounter solver</h1>
+    <div>
+        <div class="slot">
+            <h2>裏左：</h2>
+            <div>
+                <button class="num-set-button num-set-button-A">▲</button>
+                <button class="num-set-button num-set-button-A">■</button>
+                <button class="num-set-button num-set-button-A">●</button>
+            </div>
+        </div>
+        <div class="slot">
+            <h2>裏中：</h2>
+            <div>
+                <button class="num-set-button num-set-button-B">▲</button>
+                <button class="num-set-button num-set-button-B">■</button>
+                <button class="num-set-button num-set-button-B">●</button>
+            </div>
+        </div>
+        <div class="slot">
+            <h2>裏右：</h2>
+            <div>
+                <button class="num-set-button num-set-button-C">▲</button>
+                <button class="num-set-button num-set-button-C">■</button>
+                <button class="num-set-button num-set-button-C">●</button>
+            </div>
+        </div>
+        <div class="slot extra-padding">
+            <h2>表左：</h2>
+            <div class="button-grid">
+                <button class="num-set-button num-set-button-D">球体</button>
+                <button class="num-set-button num-set-button-D">立方体</button>
+                <button class="num-set-button num-set-button-D">三角錐</button>
+                <button class="num-set-button num-set-button-D">円柱</button>
+                <button class="num-set-button num-set-button-D">円錐</button>
+                <button class="num-set-button num-set-button-D">三角柱</button>
+            </div>
+        </div>    
+        <div class="slot extra-padding">
+            <h2>表中：</h2>
+            <div class="button-grid">
+                <button class="num-set-button num-set-button-E">球体</button>
+                <button class="num-set-button num-set-button-E">立方体</button>
+                <button class="num-set-button num-set-button-E">三角錐</button>
+                <button class="num-set-button num-set-button-E">円柱</button>
+                <button class="num-set-button num-set-button-E">円錐</button>
+                <button class="num-set-button num-set-button-E">三角柱</button>
+            </div>
+        </div>
+        <div class="slot extra-padding">
+            <h2>表右：</h2>
+            <div class="button-grid">
+                <button class="num-set-button num-set-button-F">球体</button>
+                <button class="num-set-button num-set-button-F">立方体</button>
+                <button class="num-set-button num-set-button-F">三角錐</button>
+                <button class="num-set-button num-set-button-F">円柱</button>
+                <button class="num-set-button num-set-button-F">円錐</button>
+                <button class="num-set-button num-set-button-F">三角柱</button>
+            </div>
+        </div>
+        <div class="slot reduced-height">
+            <h2>表左：</h2>
+            <div id="result-D3"></div>
+        </div>
+        <div class="slot reduced-height">
+            <h2>表中：</h2>
+            <div id="result-E3"></div>
+        </div>
+        <div class="slot reduced-height">
+            <h2>表右：</h2>
+            <div id="result-F3"></div>
+        </div>
+        <button class="clear-button" onclick="clearSelection()">入力クリア</button>
+        <div class="slot hidden">
+            <h2>表D2：</h2>
+            <div id="result-D2"></div>
+        </div>
+        <div class="slot hidden">
+            <h2>表E2：</h2>
+            <div id="result-E2"></div>
+        </div>
+        <div class="slot hidden">
+            <h2>表F2：</h2>
+            <div id="result-F2"></div>
+        </div>
+    </div>
+</body>
+</html>
