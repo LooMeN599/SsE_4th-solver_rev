@@ -126,7 +126,19 @@ function selectFrontSet(button, solid, position) {
     }
 }
 
-function showResult() {
+    function highlightButton(button, position, type) {
+        const buttonGroup = type === 'back' ? document.getElementById('back-set-group') : document.getElementById('front-set-group');
+        const buttons = buttonGroup.querySelectorAll(`div:nth-child(${position + 2}) button`);
+        buttons.forEach(btn => btn.classList.remove('highlight'));
+        button.classList.add('highlight');
+    }
+
+    function getCorrectSymbols(backSymbol) {
+        const allSymbols = ['▲', '■', '●'];
+        return allSymbols.filter(sym => sym !== backSymbol);
+    }
+
+    function showResult() {
     if (backSet.some(val => val === '') || frontSet.some(val => val === '')) {
         console.log('すべてのセットが選択されていません。');
         return;
@@ -171,7 +183,6 @@ function showResult() {
     document.getElementById('dissection-steps').innerText = steps.join('、');
     document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join(', ')).join(' | ');
 }
-
 </script>
 
 </body>
