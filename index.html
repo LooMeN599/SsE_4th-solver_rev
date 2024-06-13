@@ -90,7 +90,12 @@
 
     <button onclick="clearSelection()">入力クリア</button>
 
-    <div class="result" id="result"></div>
+    <div class="result" id="result">
+        <h3>解剖手順:</h3>
+        <p id="dissection-steps"></p>
+        <h3>解剖後の表セット:</h3>
+        <p id="dissected-front-set"></p>
+    </div>
 </div>
 
 <script>
@@ -122,15 +127,10 @@
     }
 
     function showResult() {
-        const correctShape = [
-            symbols['球体'], symbols['立方体'], symbols['三角錐'],
-            symbols['円柱'], symbols['円錐'], symbols['三角柱']
-        ];
-
-        let correctSet = [
-            [correctShape.find(s => s !== backSet[0]), correctShape.find(s => s !== backSet[0] && s !== correctSet[0])],
-            [correctShape.find(s => s !== backSet[1]), correctShape.find(s => s !== backSet[1] && s !== correctSet[1])],
-            [correctShape.find(s => s !== backSet[2]), correctShape.find(s => s !== backSet[2] && s !== correctSet[2])]
+        const correctSet = [
+            [getCorrectSymbol(backSet[0], 0), getCorrectSymbol(backSet[0], 1)],
+            [getCorrectSymbol(backSet[1], 0), getCorrectSymbol(backSet[1], 1)],
+            [getCorrectSymbol(backSet[2], 0), getCorrectSymbol(backSet[2], 1)]
         ];
 
         let currentSet = frontSet.map(s => symbols[s].split(''));
@@ -151,13 +151,14 @@
             }
         }
 
-        let resultHTML = `
-            <h3>解剖手順:</h3>
-            <p>${steps.join('、')}</p>
-            <h3>解剖後の表セット:</h3>
-            <p>${currentSet.map(set => set.join('')).join(', ')}</p>
-        `;
-        document.getElementById('result').innerHTML = resultHTML;
+        document.getElementById('dissection-steps').innerText = steps.join('、');
+        document.getElementById('dissected-front-set').innerText = currentSet.map(set => set.join('')).join(', ');
+    }
+
+    function getCorrectSymbol(backSymbol, index) {
+        const symbols = ['▲', '■', '●'];
+        symbols.splice(symbols.indexOf(backSymbol), 1);
+        return symbols[index];
     }
 
     function clearSelection() {
@@ -166,7 +167,8 @@
         document.querySelectorAll('button').forEach(button => {
             button.classList.remove('highlight');
         });
-        document.getElementById('result').innerHTML = '';
+        document.getElementById('dissection-steps').innerText = '';
+        document.getElementById('dissected-front-set').innerText = '';
     }
 </script>
 
